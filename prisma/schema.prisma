@@ -1,0 +1,80 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Family {
+  userId   String @db.VarChar(320)
+  memberId String @db.VarChar(320)
+  users     User  @relation(fields: [userId], references: [userId], onDelete: Cascade, onUpdate: NoAction, map: "user_foreignkey_family")
+
+  @@unique([userId, memberId])
+}
+
+model Model {
+  modelId      Int     @id @default(autoincrement())
+  name          String  @unique @db.VarChar(320)
+  description   String  @db.VarChar(350)
+  researcherId String  @db.VarChar(50)
+  cost          Decimal @db.Decimal(7, 5)
+  server        String  @db.VarChar(320)
+  users         User   @relation(fields: [researcherId], references: [userId], onDelete: Cascade, onUpdate: NoAction, map: "researcher_foreignkey_model")
+  usage         Usage[]
+}
+
+model Payment {
+  paymentId Int      @id @default(autoincrement())
+  userId    String   @db.VarChar(320)
+  modelId   Int
+  amount     Decimal  @db.Decimal(10, 5)
+  start_date DateTime @db.Timestamp(6)
+  end_date   DateTime @db.Timestamp(6)
+}
+
+model Report {
+  entryId                        Int    @id @default(autoincrement())
+  reportId                       Int
+  patientId                      String @db.VarChar(50)
+  hospitalId                     String @db.VarChar(50)
+  users_report_hospitalIdToUser User  @relation("report_hospitalIdToUser", fields: [hospitalId], references: [userId], onDelete: Cascade, onUpdate: NoAction, map: "hospital_foreignkey_report")
+  users_report_patientIdToUser  User  @relation("report_patientIdToUser", fields: [patientId], references: [userId], onDelete: Cascade, onUpdate: NoAction, map: "patient_foreignkey_report")
+}
+
+model Usage {
+  usageId    Int      @id @default(autoincrement())
+  modelId    Int
+  hospitalId String   @db.VarChar(50)
+  doctorId   String   @db.VarChar(320)
+  logged_at   DateTime @db.Timestamp(6)
+  user       User    @relation(fields: [hospitalId], references: [userId], onDelete: Cascade, onUpdate: NoAction, map: "hospital_foreignkey_logs")
+  model       Model    @relation(fields: [modelId], references: [modelId], onDelete: Cascade, onUpdate: NoAction, map: "model_foreignkey_logs")
+}
+
+model User {
+  userId                          String   @id @db.VarChar(320)
+  password                         String   @db.Char(60)
+  role                             Role
+  enabled                          Int      @db.SmallInt
+  name                             String   @db.VarChar(320)
+  phone                            String?  @db.VarChar(12)
+  location                         String?  @db.VarChar(500)
+  dob                              String?  @db.Char(60)
+  server                           String?  @db.VarChar(320)
+  family                           Family[] 
+  model                            Model[]
+  report_report_hospitalIdToUser Report[] @relation("report_hospitalIdToUser")
+  report_report_patientIdToUser  Report[] @relation("report_patientIdToUser")
+  usage                            Usage[]
+}
+
+enum Role {
+  ROLE_ADMIN
+  ROLE_RESEARCHER
+  ROLE_HOSPITAL
+  ROLE_PATIENT
+  ROLE_MODEL
+}
