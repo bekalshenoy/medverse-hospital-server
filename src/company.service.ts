@@ -19,26 +19,30 @@ export class CompanyService {
     private readonly httpService: HttpService,
     private configService: ConfigService,
   ) {
-    const isValid = this.httpService.get(
-      this.server +
-        "/auth/ROLE_HOSPITAL?" +
-        "userId=" +
-        this.configService.get("USERNAME") +
-        "&password=" +
-        this.configService.get("PASSWORD"),
-      {
-        withCredentials: true,
-      },
-    );
-
-    if (!isValid) {
-      throw new BadRequestException("Invalid Credentials");
-    }
+    this.httpService.axiosRef
+      .get(
+        this.server +
+          "/auth/ROLE_HOSPITAL?" +
+          "userId=" +
+          this.configService.get("USERNAME") +
+          "&password=" +
+          this.configService.get("PASSWORD"),
+        {
+          withCredentials: true,
+        },
+      )
+      .then((res) => {
+        if (!res.data) {
+          throw new BadRequestException("Invalid Credentials");
+        }
+      });
   }
 
   async createPatient(patient: Patient): Promise<void> {
     try {
-      await this.httpService.axiosRef.post("/patient", patient);
+      await this.httpService.axiosRef.post("/patient", patient, {
+        withCredentials: true,
+      });
     } catch (e) {
       this.logger.debug(e);
       throw new InternalServerErrorException("Company Server Exception");
@@ -51,6 +55,9 @@ export class CompanyService {
         (
           await this.httpService.axiosRef.get(
             "/patient/" + patientId + "/check",
+            {
+              withCredentials: true,
+            },
           )
         ).data == "true"
       );
@@ -75,6 +82,9 @@ export class CompanyService {
               patientPassword +
               "&dob=" +
               dob,
+            {
+              withCredentials: true,
+            },
           )
         ).data == true
       );
@@ -102,6 +112,9 @@ export class CompanyService {
               memberPassword +
               "&dob=" +
               patientDob,
+            {
+              withCredentials: true,
+            },
           )
         ).data == true
       );
@@ -113,7 +126,11 @@ export class CompanyService {
 
   async getModels(): Promise<Model[]> {
     try {
-      return (await this.httpService.axiosRef.get("/model")).data;
+      return (
+        await this.httpService.axiosRef.get("/model", {
+          withCredentials: true,
+        })
+      ).data;
     } catch (e) {
       this.logger.debug(e);
       throw new InternalServerErrorException("Company Server Exception");
@@ -124,6 +141,9 @@ export class CompanyService {
     try {
       await this.httpService.axiosRef.post(
         "/report/" + reportId + "/patient/" + patientId,
+        {
+          withCredentials: true,
+        },
       );
     } catch (e) {
       this.logger.debug(e);
@@ -133,7 +153,9 @@ export class CompanyService {
 
   async deleteReport(reportId: number): Promise<void> {
     try {
-      await this.httpService.axiosRef.delete("/report/" + reportId);
+      await this.httpService.axiosRef.delete("/report/" + reportId, {
+        withCredentials: true,
+      });
     } catch (e) {
       this.logger.debug(e);
       throw new InternalServerErrorException("Company Server Exception");
@@ -142,7 +164,11 @@ export class CompanyService {
 
   async getPayments(): Promise<Payment[]> {
     try {
-      return (await this.httpService.axiosRef.get("/payment")).data;
+      return (
+        await this.httpService.axiosRef.get("/payment", {
+          withCredentials: true,
+        })
+      ).data;
     } catch (e) {
       this.logger.debug(e);
       throw new InternalServerErrorException("Company Server Exception");
