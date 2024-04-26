@@ -1,12 +1,5 @@
 import { CanActivate, ExecutionContext } from "@nestjs/common";
-
-export enum Role {
-  ROLE_ADMIN,
-  ROLE_RESEARCHER,
-  ROLE_HOSPITAL,
-  ROLE_PATIENT,
-  ROLE_MODEL,
-}
+import { Role } from "@prisma/client";
 
 export class AuthGuard implements CanActivate {
   constructor(private role: Role) {}

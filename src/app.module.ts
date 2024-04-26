@@ -3,13 +3,12 @@ import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { PrismaService } from "./prisma.service";
 import { AdminModule } from "./admin/admin.module";
-import { HospitalModule } from "./hospital/hospital.module";
-import { PatientModule } from "./patient/patient.module";
-import { ModelModule } from "./model/model.module";
-import { ResearcherModule } from "./researcher/researcher.module";
 import { CurrentUserMiddleware } from "./middlewares/current-user.middleware";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { APP_PIPE } from "@nestjs/core";
+import { DoctorModule } from "./doctor/doctor.module";
+import { PatientModule } from "./patient/patient.module";
+import { EncryptionService } from "./encryption.service";
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const cookieSession = require("cookie-session");
 
@@ -20,10 +19,8 @@ const cookieSession = require("cookie-session");
       envFilePath: `.env.${process.env.NODE_ENV}`,
     }),
     AdminModule,
-    HospitalModule,
+    DoctorModule,
     PatientModule,
-    ModelModule,
-    ResearcherModule,
   ],
   controllers: [AppController],
   providers: [
@@ -35,6 +32,7 @@ const cookieSession = require("cookie-session");
         whitelist: true,
       }),
     },
+    EncryptionService,
   ],
 })
 export class AppModule {
