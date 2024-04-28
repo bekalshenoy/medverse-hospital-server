@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, IsPhoneNumber, Length } from "class-validator";
+import { IsEmail, IsNotEmpty, IsNumberString, Length } from "class-validator";
 
 export class Researcher {
   @IsNotEmpty()
@@ -9,7 +9,8 @@ export class Researcher {
   @Length(1, 320)
   name: string;
   @IsNotEmpty()
-  @IsPhoneNumber("IN")
+  @Length(10, 12)
+  @IsNumberString()
   phone: string;
   @IsNotEmpty()
   @Length(1, 500)

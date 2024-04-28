@@ -2,7 +2,7 @@ import {
   IsDateString,
   IsEmail,
   IsNotEmpty,
-  IsPhoneNumber,
+  IsNumberString,
   Length,
 } from "class-validator";
 
@@ -38,7 +38,8 @@ export class Patient {
   @Length(1, 320)
   name: string;
   @IsNotEmpty()
-  @IsPhoneNumber("IN")
+  @Length(10, 12)
+  @IsNumberString()
   phone: string;
   @IsNotEmpty()
   @Length(1, 500)

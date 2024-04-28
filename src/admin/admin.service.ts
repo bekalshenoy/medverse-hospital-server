@@ -42,7 +42,7 @@ export class AdminService {
 
     await this.prismaService.report.delete({
       where: {
-        reportId: reportId,
+        reportId: Number(reportId),
       },
     });
   }
@@ -63,10 +63,10 @@ export class AdminService {
     });
   }
 
-  async removeRestrictedModel(modelId): Promise<void> {
+  async removeRestrictedModel(modelId: number): Promise<void> {
     await this.prismaService.restricted.delete({
       where: {
-        modelId: modelId,
+        modelId: Number(modelId),
       },
     });
   }

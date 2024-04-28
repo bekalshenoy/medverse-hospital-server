@@ -5,7 +5,9 @@ export interface User {
 }
 
 export interface Model {
-  usage: number;
+  _count: {
+    usage: number;
+  };
   modelId: number;
   name: string;
   description: string;
@@ -29,7 +31,7 @@ export interface Report {
 
 export interface Section {
   sectionId: number;
-  reportId: string;
+  reportId: number;
   question: string;
   answer: string;
   position: number;
@@ -37,8 +39,8 @@ export interface Section {
 
 export interface Payment {
   paymentId: number;
-  userId: number;
-  modelId: string;
+  userId: string;
+  modelId: number;
   amount: number;
   startDate: string;
   endDate: string;

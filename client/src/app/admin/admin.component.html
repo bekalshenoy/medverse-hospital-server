@@ -37,33 +37,38 @@
       </span>
     </div>
 
-    <div class="section">
-      @if (currentSection() == 1) {
-        <div class="card">
-          @for (doctor of doctors(); track doctor.userId) {
+    @if (currentSection() == 1) {
+      <div class="section">
+        @for (doctor of doctors(); track doctor.userId) {
+          <div class="card">
             <p>{{ doctor.userId }}</p>
             <p>{{ doctor.name }}</p>
             <button (click)="removeDoctor(doctor.userId)">delete</button>
-          }
-        </div>
-      } @else if (currentSection() == 2) {
-        <div class="card">
-          @for (report of reports(); track report.reportId) {
+          </div>
+        }
+      </div>
+    } @else if (currentSection() == 2) {
+      <div class="section">
+        @for (report of reports(); track report.reportId) {
+          <div class="card">
             <p>Report ID: {{ report.reportId }}</p>
             <p>Patient: {{ report.patientId }}</p>
             <p>Doctor: {{ report.doctorId }}</p>
             <p>Modified: {{ report.modifiedAt }}</p>
             <button (click)="deleteReport(report.reportId)">delete</button>
-          }
-        </div>
-      } @else if (currentSection() == 3) {
-        <div class="card">
-          @for (model of models(); track model.modelId) {
+          </div>
+        }
+      </div>
+    } @else if (currentSection() == 3) {
+      <div class="section">
+        @for (model of models(); track model.modelId) {
+          <div class="card">
             <p>Name: {{ model.name }}</p>
             <p>Description: {{ model.description }}</p>
             <p>Usage Cost: {{ model.cost }}₹</p>
-            <p>Usage: {{ model.usage }}</p>
-            <p>Est. Cost: {{ model.usage * model.cost }}₹</p>
+            <p>Usage: {{ model._count.usage }}</p>
+
+            <p>Est. Cost: {{ model._count.usage * model.cost }}₹</p>
             <button (click)="toggleRestrictedModel(model.modelId)">
               {{
                 restrictedModels().includes(model.modelId)
@@ -71,19 +76,21 @@
                   : "disable"
               }}
             </button>
-          }
-        </div>
-      } @else if (currentSection() == 4) {
-        <div class="card">
-          @for (payment of payments(); track payment.paymentId) {
+          </div>
+        }
+      </div>
+    } @else if (currentSection() == 4) {
+      <div class="section">
+        @for (payment of payments(); track payment.paymentId) {
+          <div class="card">
             <p>Payment ID: {{ payment.paymentId }}</p>
             <p>Model ID: {{ payment.modelId }}</p>
             <p>Amount: {{ payment.amount }}₹</p>
             <p>Start Date: {{ payment.startDate }}</p>
             <p>End Date: {{ payment.endDate }}</p>
-          }
-        </div>
-      }
-    </div>
+          </div>
+        }
+      </div>
+    }
   </div>
 </div>
