@@ -1,47 +1,50 @@
 import {
-  BadRequestException,
   Injectable,
   InternalServerErrorException,
   Logger,
 } from "@nestjs/common";
 import { HttpService } from "@nestjs/axios";
-import { ConfigService } from "@nestjs/config";
 import { Patient } from "./dto/patient.dto";
 import { Payment } from "./dto/payment.dto";
 import { Model } from "./dto/model.dto";
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+require("dotenv").config();
 
 @Injectable()
 export class CompanyService {
   private readonly logger = new Logger(CompanyService.name);
-  private readonly server = this.configService.get<string>("server");
+  private readonly server = process.env.SERVER + "/api/v1/hospital";
+  private access_token = "";
 
-  constructor(
-    private readonly httpService: HttpService,
-    private configService: ConfigService,
-  ) {
-    this.httpService.axiosRef
-      .get(
-        this.server +
-          "/auth/ROLE_HOSPITAL?" +
-          "userId=" +
-          this.configService.get("USERNAME") +
-          "&password=" +
-          this.configService.get("PASSWORD"),
-        {
-          withCredentials: true,
-        },
-      )
-      .then((res) => {
-        if (!res.data) {
-          throw new BadRequestException("Invalid Credentials");
-        }
-      });
+  constructor(private readonly httpService: HttpService) {
+    this.auth();
+  }
+
+  async auth(): Promise<void> {
+    try {
+      this.access_token =
+        "Bearer " +
+        (
+          await this.httpService.axiosRef.post(
+            process.env.SERVER + "/api/v1/auth/",
+            {
+              userId: process.env.USERID,
+              password: process.env.PASSWORD,
+            },
+          )
+        ).data.access_token;
+    } catch (e) {
+      this.logger.debug(e);
+      throw new InternalServerErrorException("Company Server Exception");
+    }
   }
 
   async createPatient(patient: Patient): Promise<void> {
     try {
-      await this.httpService.axiosRef.post("/patient", patient, {
-        withCredentials: true,
+      await this.httpService.axiosRef.post(this.server + "/patient", patient, {
+        headers: {
+          Authorization: this.access_token,
+        },
       });
     } catch (e) {
       this.logger.debug(e);
@@ -54,9 +57,11 @@ export class CompanyService {
       return (
         (
           await this.httpService.axiosRef.get(
-            "/patient/" + patientId + "/check",
+            this.server + "/patient/" + patientId + "/check",
             {
-              withCredentials: true,
+              headers: {
+                Authorization: this.access_token,
+              },
             },
           )
         ).data == "true"
@@ -76,14 +81,17 @@ export class CompanyService {
       return (
         (
           await this.httpService.axiosRef.get(
-            "/patient/" +
+            this.server +
+              "/patient/" +
               patientId +
               "/password?password=" +
               patientPassword +
               "&dob=" +
               dob,
             {
-              withCredentials: true,
+              headers: {
+                Authorization: this.access_token,
+              },
             },
           )
         ).data == true
@@ -104,7 +112,8 @@ export class CompanyService {
       return (
         (
           await this.httpService.axiosRef.get(
-            "/patient/" +
+            this.server +
+              "/patient/" +
               patientId +
               "/family/" +
               memberId +
@@ -113,7 +122,9 @@ export class CompanyService {
               "&dob=" +
               patientDob,
             {
-              withCredentials: true,
+              headers: {
+                Authorization: this.access_token,
+              },
             },
           )
         ).data == true
@@ -127,8 +138,10 @@ export class CompanyService {
   async getModels(): Promise<Model[]> {
     try {
       return (
-        await this.httpService.axiosRef.get("/model", {
-          withCredentials: true,
+        await this.httpService.axiosRef.get(this.server + "/model", {
+          headers: {
+            Authorization: this.access_token,
+          },
         })
       ).data;
     } catch (e) {
@@ -140,9 +153,12 @@ export class CompanyService {
   async addReport(reportId: number, patientId: string): Promise<void> {
     try {
       await this.httpService.axiosRef.post(
-        "/report/" + reportId + "/patient/" + patientId,
+        this.server + "/report/" + reportId + "/patient/" + patientId,
+        {},
         {
-          withCredentials: true,
+          headers: {
+            Authorization: this.access_token,
+          },
         },
       );
     } catch (e) {
@@ -153,9 +169,14 @@ export class CompanyService {
 
   async deleteReport(reportId: number): Promise<void> {
     try {
-      await this.httpService.axiosRef.delete("/report/" + reportId, {
-        withCredentials: true,
-      });
+      await this.httpService.axiosRef.delete(
+        this.server + "/report/" + reportId,
+        {
+          headers: {
+            Authorization: this.access_token,
+          },
+        },
+      );
     } catch (e) {
       this.logger.debug(e);
       throw new InternalServerErrorException("Company Server Exception");
@@ -165,8 +186,10 @@ export class CompanyService {
   async getPayments(): Promise<Payment[]> {
     try {
       return (
-        await this.httpService.axiosRef.get("/payment", {
-          withCredentials: true,
+        await this.httpService.axiosRef.get(this.server + "/payment", {
+          headers: {
+            Authorization: this.access_token,
+          },
         })
       ).data;
     } catch (e) {

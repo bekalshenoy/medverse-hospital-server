@@ -1,14 +1,11 @@
 import { Injectable } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
 import { createCipheriv, pbkdf2Sync, randomBytes } from "crypto";
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+require("dotenv").config();
 
 @Injectable()
 export class EncryptionService {
-  private salt: string;
-
-  constructor(private configService: ConfigService) {
-    this.salt = this.configService.get("SALT");
-  }
+  private salt: string = process.env.SALT;
 
   generateIv(): Buffer {
     return randomBytes(16);

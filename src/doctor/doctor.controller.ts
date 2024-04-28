@@ -6,13 +6,13 @@ import {
   Post,
   Put,
   Query,
+  Req,
   UseGuards,
 } from "@nestjs/common";
-import { Report, Role, User } from "@prisma/client";
+import { Report, Role } from "@prisma/client";
 import { AuthGuard } from "src/guards/auth.guard";
 import { DoctorService } from "./doctor.service";
 import { Patient } from "src/dto/patient.dto";
-import { CurrentUser } from "src/decorators/current-user.decorator";
 import { MedicalReport } from "src/dto/medical-report.dto";
 import { Model } from "src/dto/model.dto";
 
@@ -37,8 +37,8 @@ export class DoctorController {
   }
 
   @Get("/report")
-  async getReports(@CurrentUser() currentUser: User): Promise<Report[]> {
-    return await this.doctorService.getReports(currentUser);
+  async getReports(@Req() req): Promise<Report[]> {
+    return await this.doctorService.getReports(req.user);
   }
 
   @Get("/report/patient/:id")
@@ -52,14 +52,14 @@ export class DoctorController {
     @Query("password") password: string,
     @Query("dob") dob: string,
     @Param("id") memberId: string,
-    @CurrentUser() currentUser: User,
+    @Req() req,
   ): Promise<void> {
     await this.doctorService.addReport(
       report,
       password,
       dob,
       memberId,
-      currentUser,
+      req.user,
     );
   }
 
@@ -84,14 +84,14 @@ export class DoctorController {
     @Query("password") password: string,
     @Query("dob") dob: string,
     @Param("id") memberId: string,
-    @CurrentUser() currentUser: User,
+    @Req() req,
   ): Promise<void> {
     await this.doctorService.updateReport(
       report,
       password,
       dob,
       memberId,
-      currentUser,
+      req.user,
     );
   }
 
@@ -100,15 +100,9 @@ export class DoctorController {
     @Body() report: MedicalReport,
     @Query("password") password: string,
     @Query("dob") dob: string,
-    @CurrentUser() currentUser: User,
+    @Req() req,
   ): Promise<void> {
-    await this.doctorService.addReport(
-      report,
-      password,
-      dob,
-      null,
-      currentUser,
-    );
+    await this.doctorService.addReport(report, password, dob, null, req.user);
   }
 
   @Get("/report/{:id")
@@ -125,14 +119,14 @@ export class DoctorController {
     @Body() report: MedicalReport,
     @Query("password") password: string,
     @Query("dob") dob: string,
-    @CurrentUser() currentUser: User,
+    @Req() req,
   ): Promise<void> {
     await this.doctorService.updateReport(
       report,
       password,
       dob,
       null,
-      currentUser,
+      req.user,
     );
   }
 }

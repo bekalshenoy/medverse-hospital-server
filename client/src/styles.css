@@ -1,0 +1,143 @@
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  display: grid;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+.app {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+button,
+input {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  margin: 0.5em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+
+button {
+  display: block;
+  margin: 0.5em auto;
+}
+
+input {
+  background-color: #333333;
+}
+
+button:hover,
+input:hover {
+  border-color: #0e1521;
+}
+
+.card {
+  border-radius: 8px;
+  background: #101020;
+  padding: 1em;
+  margin: 1em;
+  min-width: 300px;
+}
+
+.section .card {
+  width: fit-content;
+  display: inline-block;
+  padding: 1em;
+}
+
+.card p {
+  background: #000000;
+  border-radius: 8px;
+  padding: 0.5em;
+  width: 100%;
+  text-align: left;
+}
+
+button:focus,
+button:focus-visible,
+input:focus,
+input:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+span {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  margin: 0.5em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color 0.25s;
+  display: inline-block;
+}
+
+span.active {
+  background-color: #101020;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+
+  button {
+    background-color: #eeeeee;
+  }
+
+  input {
+    background-color: #dddddd;
+  }
+
+  .card input {
+    background-color: #ffffff;
+  }
+
+  .card {
+    background: #adccff;
+  }
+
+  .card p {
+    background: #ffffff;
+  }
+
+  span.active {
+    background-color: #adccff;
+  }
+}

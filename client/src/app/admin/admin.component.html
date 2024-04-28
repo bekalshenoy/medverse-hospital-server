@@ -1,0 +1,89 @@
+<div class="app">
+  <form class="card" [formGroup]="doctorForm" (ngSubmit)="addDoctor()">
+    <h2>Add Doctor</h2>
+    <input type="email" placeholder="Email" formControlName="userId" />
+    <input type="text" placeholder="Name" formControlName="name" />
+    <input type="password" placeholder="Password" formControlName="password" />
+    <button type="submit">Add</button>
+  </form>
+
+  <h1>Sections</h1>
+  <div>
+    <div>
+      Select One:
+      <span
+        [ngClass]="{ active: currentSection() == 1 }"
+        (click)="currentSection.set(1)"
+      >
+        Doctors
+      </span>
+      <span
+        [ngClass]="{ active: currentSection() == 2 }"
+        (click)="currentSection.set(2)"
+      >
+        Reports
+      </span>
+      <span
+        [ngClass]="{ active: currentSection() == 3 }"
+        (click)="currentSection.set(3)"
+      >
+        Models
+      </span>
+      <span
+        [ngClass]="{ active: currentSection() == 4 }"
+        (click)="currentSection.set(4)"
+      >
+        Payments
+      </span>
+    </div>
+
+    <div class="section">
+      @if (currentSection() == 1) {
+        <div class="card">
+          @for (doctor of doctors(); track doctor.userId) {
+            <p>{{ doctor.userId }}</p>
+            <p>{{ doctor.name }}</p>
+            <button (click)="removeDoctor(doctor.userId)">delete</button>
+          }
+        </div>
+      } @else if (currentSection() == 2) {
+        <div class="card">
+          @for (report of reports(); track report.reportId) {
+            <p>Report ID: {{ report.reportId }}</p>
+            <p>Patient: {{ report.patientId }}</p>
+            <p>Doctor: {{ report.doctorId }}</p>
+            <p>Modified: {{ report.modifiedAt }}</p>
+            <button (click)="deleteReport(report.reportId)">delete</button>
+          }
+        </div>
+      } @else if (currentSection() == 3) {
+        <div class="card">
+          @for (model of models(); track model.modelId) {
+            <p>Name: {{ model.name }}</p>
+            <p>Description: {{ model.description }}</p>
+            <p>Usage Cost: {{ model.cost }}₹</p>
+            <p>Usage: {{ model.usage }}</p>
+            <p>Est. Cost: {{ model.usage * model.cost }}₹</p>
+            <button (click)="toggleRestrictedModel(model.modelId)">
+              {{
+                restrictedModels().includes(model.modelId)
+                  ? "enable"
+                  : "disable"
+              }}
+            </button>
+          }
+        </div>
+      } @else if (currentSection() == 4) {
+        <div class="card">
+          @for (payment of payments(); track payment.paymentId) {
+            <p>Payment ID: {{ payment.paymentId }}</p>
+            <p>Model ID: {{ payment.modelId }}</p>
+            <p>Amount: {{ payment.amount }}₹</p>
+            <p>Start Date: {{ payment.startDate }}</p>
+            <p>End Date: {{ payment.endDate }}</p>
+          }
+        </div>
+      }
+    </div>
+  </div>
+</div>

@@ -1,0 +1,24 @@
+<div class="app">
+  <div>
+    Select One:
+    <span
+      [ngClass]="{ active: currentSection() == 1 }"
+      (click)="currentSection.set(1)"
+    >
+      Doctor
+    </span>
+    <span
+      [ngClass]="{ active: currentSection() == 2 }"
+      (click)="currentSection.set(2)"
+    >
+      Admin
+    </span>
+  </div>
+
+  <form [formGroup]="loginForm" (ngSubmit)="login()">
+    <h1>Login</h1>
+    <input type="text" placeholder="Username" formControlName="userId" />
+    <input type="password" placeholder="Password" formControlName="password" />
+    <button type="submit">Login</button>
+  </form>
+</div>
