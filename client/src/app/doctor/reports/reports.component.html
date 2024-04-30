@@ -1,0 +1,29 @@
+<div>
+  <div [ngStyle]="{ display: 'grid', placeItems: 'center', padding: 16 }">
+    <div>
+      <input
+        class="border border-gray-300 rounded-lg mb-4 py-2 px-4 focus:outline-none focus:border-blue-500 bg-white text-black"
+        type="text"
+        placeholder="Patient ID"
+        [formControl]="patientFormControl"
+      />
+      <button
+        class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outlin ml-2"
+        (click)="fetchReports()"
+      >
+        Get Reports
+      </button>
+    </div>
+  </div>
+
+  @for (report of reports(); track report.reportId) {
+    <div
+      [ngStyle]="{ display: 'block', maxWidth: 200 }"
+      (click)="navigate('/doctor/report/' + report.reportId)"
+      class="bg-white p-4 rounded-lg shadow-md mb-4"
+    >
+      <h1 class="text-lg font-bold text-gray-800">{{ report.reportId }}</h1>
+      <p class="text-gray-600">{{ report.modifiedAt }}</p>
+    </div>
+  }
+</div>

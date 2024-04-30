@@ -26,11 +26,17 @@ export class DoctorService {
     const models: Model[] = await this.companyService.getModels();
 
     return models.filter((model) => {
+      let isRestricted = false;
+
       restricted.forEach((restricted) => {
         if (model.modelId == restricted.modelId) {
-          return false;
+          isRestricted = true;
         }
       });
+
+      if (isRestricted) {
+        return false;
+      }
 
       return true;
     });
@@ -59,7 +65,7 @@ export class DoctorService {
       },
     });
   }
-  appService;
+
   async addReport(
     report: MedicalReport,
     password: string,
@@ -67,19 +73,22 @@ export class DoctorService {
     memberId: string,
     currentUser: User,
   ): Promise<void> {
-    report.doctorId = currentUser.userId;
-
     report = await this.encrypt(report, password, dob, memberId);
+
+    const currentTimestamp = new Date().toISOString();
 
     const savedReport = await this.prismaService.report.create({
       data: {
-        ...report,
-        section: null,
+        patientId: report.patientId,
+        doctorId: currentUser.userId,
+        iv: report.iv,
+        createdAt: currentTimestamp,
+        modifiedAt: currentTimestamp,
       },
     });
 
-    report.section.forEach((section) => {
-      this.prismaService.section.create({
+    report.section.forEach(async (section) => {
+      await this.prismaService.section.create({
         data: {
           ...section,
           reportId: savedReport.reportId,
@@ -127,28 +136,30 @@ export class DoctorService {
     memberId: string,
     currentUser: User,
   ): Promise<void> {
-    report.doctorId = currentUser.userId;
-
     report = await this.encrypt(report, password, dob, memberId);
 
     await this.prismaService.report.update({
       where: {
-        reportId: report.reportId,
+        reportId: Number(report.reportId),
       },
       data: {
-        ...report,
-        section: null,
+        doctorId: currentUser.userId,
+        iv: report.iv,
+        modifiedAt: new Date().toISOString(),
+      },
+    });
+
+    await this.prismaService.section.deleteMany({
+      where: {
+        reportId: Number(report.reportId),
       },
     });
 
     report.section.forEach(async (section) => {
-      await this.prismaService.section.update({
-        where: {
-          sectionId: section.sectionId,
-        },
+      await this.prismaService.section.create({
         data: {
           ...section,
-          reportId: report.reportId,
+          reportId: Number(report.reportId),
         },
       });
     });
@@ -185,7 +196,7 @@ export class DoctorService {
 
     const iv: Buffer = this.encryptionService.generateIv();
 
-    report.iv = iv;
+    report.iv = iv.toString("hex");
 
     try {
       report.section.forEach((section) => {
@@ -231,7 +242,7 @@ export class DoctorService {
       throw new NotFoundException("Patient Not Found");
     }
 
-    const iv: Buffer = report.iv;
+    const iv: Buffer = Buffer.from(report.iv, "hex");
 
     try {
       report.section.forEach((section) => {

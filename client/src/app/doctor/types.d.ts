@@ -4,20 +4,29 @@ export interface User {
   password: string;
 }
 
+export interface Patient {
+  userId: string;
+  name: string;
+  phone: string;
+  location: string;
+  dob: string;
+  password: string;
+  family: Family[];
+}
+
+export interface Family {
+  userId: string;
+  memberId: string;
+}
+
 export interface Model {
-  _count: {
-    usage: number;
-  };
+  usage: number;
   modelId: number;
   name: string;
   description: string;
   researcherId: string;
   cost: number;
   server: string;
-}
-
-export interface Restricted {
-  modelId: number;
 }
 
 export interface Report {
@@ -34,13 +43,4 @@ export interface Section {
   reportId: number;
   question: string;
   answer: string;
-}
-
-export interface Payment {
-  paymentId: number;
-  userId: string;
-  modelId: number;
-  amount: number;
-  startDate: string;
-  endDate: string;
 }

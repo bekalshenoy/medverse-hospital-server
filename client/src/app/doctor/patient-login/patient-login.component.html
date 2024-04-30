@@ -1,0 +1,85 @@
+<model-wrapper>
+  <div
+    class="m-3 max-w-md mx-auto bg-green-100 p-8 rounded-lg shadow-md text-black"
+  >
+    <div>
+      <span
+        [ngClass]="{ active: currentSection() == 1 }"
+        (click)="currentSection.set(1)"
+      >
+        Patient Login
+      </span>
+      <span
+        [ngClass]="{ active: currentSection() == 2 }"
+        (click)="currentSection.set(2)"
+      >
+        Family Login
+      </span>
+    </div>
+    @if (currentSection() == 1) {
+      <form [formGroup]="patientLoginForm" (ngSubmit)="patientLogin()">
+        <input
+          class="block w-full border border-gray-300 rounded-lg mb-4 py-2 px-4 focus:outline-none focus:border-blue-500 bg-white text-black"
+          type="text"
+          placeholder="Patient Id"
+          formControlName="userId"
+        />
+        <input
+          class="block w-full border border-gray-300 rounded-lg mb-4 py-2 px-4 focus:outline-none focus:border-blue-500 bg-white text-black"
+          type="date"
+          placeholder="DOB"
+          formControlName="dob"
+        />
+        <input
+          class="block w-full border border-gray-300 rounded-lg mb-4 py-2 px-4 focus:outline-none focus:border-blue-500 bg-white text-black"
+          type="password"
+          placeholder="Password"
+          formControlName="password"
+        />
+        <button
+          class="block w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline"
+          type="submit"
+        >
+          Submit
+        </button>
+      </form>
+    } @else if (currentSection() == 2) {
+      <form [formGroup]="familyLoginForm" (ngSubmit)="familyLogin()">
+        <input
+          class="block w-full border border-gray-300 rounded-lg mb-4 py-2 px-4 focus:outline-none focus:border-blue-500 bg-white text-black"
+          type="text"
+          placeholder="Patient Id"
+          formControlName="userId"
+        />
+        <input
+          class="block w-full border border-gray-300 rounded-lg mb-4 py-2 px-4 focus:outline-none focus:border-blue-500 bg-white text-black"
+          type="date"
+          placeholder="DOB"
+          formControlName="dob"
+        />
+        <input
+          class="block w-full border border-gray-300 rounded-lg mb-4 py-2 px-4 focus:outline-none focus:border-blue-500 bg-white text-black"
+          type="text"
+          placeholder="Family Member Id"
+          formControlName="memberId"
+        />
+        <input
+          class="block w-full border border-gray-300 rounded-lg mb-4 py-2 px-4 focus:outline-none focus:border-blue-500 bg-white text-black"
+          type="password"
+          placeholder="Family Member Password"
+          formControlName="password"
+        />
+        <button
+          class="block w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline"
+          type="submit"
+        >
+          Submit
+        </button>
+      </form>
+    }
+  </div>
+</model-wrapper>
+
+@if (show()) {
+  <add-patient (onCloseAddPatient)="closeAddPatient()" />
+}

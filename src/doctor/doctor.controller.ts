@@ -9,7 +9,7 @@ import {
   Req,
   UseGuards,
 } from "@nestjs/common";
-import { Report, Role } from "@prisma/client";
+import { Report, Role, Section } from "@prisma/client";
 import { AuthGuard } from "src/guards/auth.guard";
 import { DoctorService } from "./doctor.service";
 import { Patient } from "src/dto/patient.dto";
@@ -97,15 +97,21 @@ export class DoctorController {
 
   @Post("/report")
   async addReport(
-    @Body() report: MedicalReport,
+    @Body() report: { patientId: string; section: Section[] },
     @Query("password") password: string,
     @Query("dob") dob: string,
     @Req() req,
   ): Promise<void> {
-    await this.doctorService.addReport(report, password, dob, null, req.user);
+    await this.doctorService.addReport(
+      report as MedicalReport,
+      password,
+      dob,
+      null,
+      req.user,
+    );
   }
 
-  @Get("/report/{:id")
+  @Get("/report/:id")
   async getReport(
     @Param("id") reportId: number,
     @Query("password") password: string,
@@ -116,13 +122,13 @@ export class DoctorController {
 
   @Put("/report")
   async updateReport(
-    @Body() report: MedicalReport,
+    @Body() report: { patientId: string; section: Section[] },
     @Query("password") password: string,
     @Query("dob") dob: string,
     @Req() req,
   ): Promise<void> {
     await this.doctorService.updateReport(
-      report,
+      report as MedicalReport,
       password,
       dob,
       null,

@@ -5,7 +5,7 @@ import { ApiService } from './api.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-login',
+  selector: 'login',
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './login.component.html',
@@ -28,7 +28,7 @@ export class LoginComponent {
 
     if (this.currentSection() == 1) {
       await this.apiService.loginDoctor(userId, password);
-      this.router.navigate(['/patient']);
+      this.router.navigate(['/doctor']);
     } else if (this.currentSection() == 2) {
       await this.apiService.loginAdmin(userId, password);
       this.router.navigate(['/admin']);

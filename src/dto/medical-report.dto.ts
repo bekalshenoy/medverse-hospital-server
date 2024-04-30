@@ -9,7 +9,7 @@ export class MedicalReport {
   @IsNotEmpty()
   @IsEmail()
   doctorId: string;
-  iv: Buffer;
+  iv: string;
   @IsNotEmpty()
   createdAt: Date;
   @IsNotEmpty()

@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
 import { Role } from '../login/api.service';
 
 @Component({
-  selector: 'app-admin',
+  selector: 'admin',
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './admin.component.html',

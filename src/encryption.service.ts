@@ -1,5 +1,10 @@
 import { Injectable } from "@nestjs/common";
-import { createCipheriv, pbkdf2Sync, randomBytes } from "crypto";
+import {
+  createCipheriv,
+  createDecipheriv,
+  pbkdf2Sync,
+  randomBytes,
+} from "crypto";
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require("dotenv").config();
 
@@ -12,7 +17,7 @@ export class EncryptionService {
   }
 
   getKeyFromPassword(password: string): Buffer {
-    return pbkdf2Sync(password, this.salt, 65536, 256, "sha256");
+    return pbkdf2Sync(password, this.salt, 65536, 32, "sha256");
   }
 
   encrypt(input: string, key: Buffer, iv: Buffer): string {
@@ -24,7 +29,7 @@ export class EncryptionService {
 
   decrypt(input: string, key: Buffer, iv: Buffer): string {
     const encryptedText = Buffer.from(input, "hex");
-    const decipher = createCipheriv("aes-256-cbc", key, iv);
+    const decipher = createDecipheriv("aes-256-cbc", key, iv);
     let decrypted = decipher.update(encryptedText);
     decrypted = Buffer.concat([decrypted, decipher.final()]);
     return decrypted.toString();

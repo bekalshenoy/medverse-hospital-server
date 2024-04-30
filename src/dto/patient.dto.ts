@@ -1,6 +1,5 @@
 import {
   IsDateString,
-  IsEmail,
   IsNotEmpty,
   IsNumberString,
   Length,
@@ -31,8 +30,7 @@ export class Patient {
   }
 
   @IsNotEmpty()
-  @IsEmail()
-  @Length(1, 320)
+  @Length(12, 12)
   userId: string;
   @IsNotEmpty()
   @Length(1, 320)

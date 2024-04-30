@@ -46,7 +46,7 @@ export class PatientService {
       throw new BadRequestException("Patient not found");
     }
 
-    const iv: Buffer = report.iv;
+    const iv: Buffer = Buffer.from(report.iv, "hex");
 
     try {
       report.section.forEach((section: Section) => {

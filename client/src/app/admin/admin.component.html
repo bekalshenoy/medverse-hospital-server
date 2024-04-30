@@ -36,9 +36,8 @@
         Payments
       </span>
     </div>
-
-    @if (currentSection() == 1) {
-      <div class="section">
+    <div class="section">
+      @if (currentSection() == 1) {
         @for (doctor of doctors(); track doctor.userId) {
           <div class="card">
             <p>{{ doctor.userId }}</p>
@@ -46,9 +45,7 @@
             <button (click)="removeDoctor(doctor.userId)">delete</button>
           </div>
         }
-      </div>
-    } @else if (currentSection() == 2) {
-      <div class="section">
+      } @else if (currentSection() == 2) {
         @for (report of reports(); track report.reportId) {
           <div class="card">
             <p>Report ID: {{ report.reportId }}</p>
@@ -58,9 +55,7 @@
             <button (click)="deleteReport(report.reportId)">delete</button>
           </div>
         }
-      </div>
-    } @else if (currentSection() == 3) {
-      <div class="section">
+      } @else if (currentSection() == 3) {
         @for (model of models(); track model.modelId) {
           <div class="card">
             <p>Name: {{ model.name }}</p>
@@ -78,9 +73,7 @@
             </button>
           </div>
         }
-      </div>
-    } @else if (currentSection() == 4) {
-      <div class="section">
+      } @else if (currentSection() == 4) {
         @for (payment of payments(); track payment.paymentId) {
           <div class="card">
             <p>Payment ID: {{ payment.paymentId }}</p>
@@ -90,7 +83,7 @@
             <p>End Date: {{ payment.endDate }}</p>
           </div>
         }
-      </div>
-    }
+      }
+    </div>
   </div>
 </div>

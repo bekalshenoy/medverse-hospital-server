@@ -11,7 +11,7 @@ model Report {
   reportId   Int       @id @default(autoincrement())
   patientId  String    @db.Char(12)
   doctorId   String    @db.VarChar(320)
-  iv          Bytes
+  iv          String
   createdAt  DateTime  @db.Timestamp(6)
   modifiedAt DateTime  @db.Timestamp(6)
   users       User     @relation(fields: [doctorId], references: [userId], onDelete: Cascade, onUpdate: NoAction, map: "doctor_foreignkey_reports")
@@ -27,7 +27,6 @@ model Section {
   reportId Int
   question  String @db.VarChar(1500)
   answer    String @db.VarChar(5000)
-  position  Int
   report    Report @relation(fields: [reportId], references: [reportId], onDelete: Cascade, onUpdate: NoAction, map: "report_foreignkey_sections")
 
 }

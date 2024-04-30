@@ -1,0 +1,43 @@
+<form [formGroup]="sectionsForm">
+  <ng-container formArrayName="sectionsFormArray">
+    @for (sectionForm of sectionsFormArray.controls; track $index) {
+      <div class="bg-gray-200 p-4 m-2 rounded-lg" [formGroupName]="$index">
+        <div>
+          <input
+            type="text"
+            class="bg-gray-300 appearance-none rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            formControlName="question"
+          />
+        </div>
+        <div>
+          <textarea
+            class="bg-gray-200 appearance-none rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            formControlName="answer"
+          ></textarea>
+        </div>
+      </div>
+    }
+  </ng-container>
+</form>
+<div class="flex justify-center">
+  <button
+    class="m-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+    (click)="addSection()"
+  >
+    Add Section
+  </button>
+  <button
+    (click)="submitReport()"
+    class="m-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+  >
+    {{ task() }} Report
+  </button>
+</div>
+
+@if (show()) {
+  <patient-login
+    [sections]="sections()"
+    [task]="task()"
+    [reportId]="reportId()"
+  />
+}
