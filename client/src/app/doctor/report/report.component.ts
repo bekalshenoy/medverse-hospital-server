@@ -26,13 +26,13 @@ import {
 })
 export class ReportComponent implements OnInit {
   show: WritableSignal<boolean> = signal(false);
-  sectionsFormArray: FormArray<FormGroup> = new FormArray<FormGroup>([]);
   sectionsForm: FormGroup = new FormGroup({
-    sectionsFormArray: this.sectionsFormArray,
+    sectionsFormArray: new FormArray<FormGroup>([]),
   });
   sections = input<Section[]>();
   task = input<string>();
-  reportId = input<string>();
+  reportId = input<number>();
+  details = input<{ question: string; answer: string }[]>([]);
   onSetSections = output<Section[]>();
 
   ngOnInit() {
@@ -48,6 +48,10 @@ export class ReportComponent implements OnInit {
     }
   }
 
+  get sectionsFormArray(): FormArray<FormGroup> {
+    return this.sectionsForm.get('sectionsFormArray') as FormArray<FormGroup>;
+  }
+
   addSection() {
     this.sectionsFormArray.push(
       new FormGroup({
@@ -60,6 +64,24 @@ export class ReportComponent implements OnInit {
   removeSection(index: number) {
     this.sectionsFormArray.removeAt(index);
   }
+
+  // moveUp(index: number) {
+  //   console.log('mu', index);
+  //   if (index !== 0) {
+  //     const currentSection = this.sectionsFormArray.at(index);
+  //     this.sectionsFormArray.removeAt(index);
+  //     this.sectionsFormArray.insert(index - 1, currentSection);
+  //   }
+  // }
+
+  // moveDown(index: number) {
+  //   console.log('md', index);
+  //   if (index !== this.sectionsFormArray.length - 1) {
+  //     const currentSection = this.sectionsFormArray.at(index);
+  //     this.sectionsFormArray.removeAt(index);
+  //     this.sectionsFormArray.insert(index + 1, currentSection);
+  //   }
+  // }
 
   submitReport() {
     if (this.sectionsFormArray.valid) {

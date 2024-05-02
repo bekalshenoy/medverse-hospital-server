@@ -1,37 +1,83 @@
-<form [formGroup]="sectionsForm">
+<div [formGroup]="sectionsForm" class="py-16">
   <ng-container formArrayName="sectionsFormArray">
-    @for (sectionForm of sectionsFormArray.controls; track $index) {
-      <div class="bg-gray-200 p-4 m-2 rounded-lg" [formGroupName]="$index">
-        <div>
-          <input
-            type="text"
-            class="bg-gray-300 appearance-none rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            formControlName="question"
-          />
-        </div>
-        <div>
-          <textarea
-            class="bg-gray-200 appearance-none rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            formControlName="answer"
-          ></textarea>
-        </div>
+    <div
+      class="bg-gray-100 bg-opacity-75 rounded-2xl max-w-4xl mx-auto p-8 shadow-lg"
+    >
+      <h1 class="text-center m-0 p-0 text-2xl font-bold">Medical Report</h1>
+      <h3 class="text-center py-2 pb-8 text-base">ABC Hospitals</h3>
+      <div class="pb-8">
+        @if (details() && details().length > 0) {
+          @for (detail of details(); track $index) {
+            <div class="flex justify-normal pb-2">
+              <div class="font-bold">{{ detail.question }}:</div>
+              <div class="font-normal pl-4">{{ detail.answer }}</div>
+            </div>
+          }
+        }
       </div>
-    }
+
+      @for (
+        sectionForm of sectionsFormArray.controls;
+        track i;
+        let i = $index
+      ) {
+        <div [formGroupName]="i">
+          <div>
+            <input
+              class="bg-transparent appearance-none font-bold my-2 w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+              type="text"
+              formControlName="question"
+            />
+          </div>
+          <div class="rounded-lg bg-white p-2 w-full h-auto shadow-lg">
+            <textarea
+              class="bg-transparent appearance-none rounded-2xl w-full h-fit min-h-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline resize-y"
+              formControlName="answer"
+            ></textarea>
+            <div class="flex justify-end">
+              <button
+                class="block m-1 bg-transparent text-red-500 hover:text-red-200 font-semibold py-2 px-4 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
+                (click)="removeSection(i)"
+              >
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            </div>
+          </div>
+          <!-- <div class>
+          
+          <button
+            class="block m-1 bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
+            (click)="moveUp(i)"
+          >
+            <i class="fa-solid fa-arrow-up"></i>
+          </button>
+          <button
+            class="block m-1 bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
+            (click)="moveDown(i)"
+          >
+            <i class="fa-solid fa-arrow-down"></i>
+          </button>
+        </div> -->
+        </div>
+      }
+    </div>
   </ng-container>
-</form>
-<div class="flex justify-center">
-  <button
-    class="m-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
-    (click)="addSection()"
-  >
-    Add Section
-  </button>
-  <button
-    (click)="submitReport()"
-    class="m-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
-  >
-    {{ task() }} Report
-  </button>
+  <div class="flex justify-center mt-4">
+    <button
+      class="m-2 bg-purple-500 hover:bg-purple-600 rounded-full text-white font-bold shadow-md py-2 px-4 focus:outline-none"
+      (click)="addSection()"
+      type="button"
+    >
+      Add Section
+    </button>
+    <button
+      (click)="submitReport()"
+      type="button"
+      class="m-2 bg-purple-500 hover:bg-purple-600 rounded-full text-white font-bold shadow-md py-2 px-4 focus:outline-none"
+    >
+      {{ task() }} Report
+    </button>
+  </div>
 </div>
 
 @if (show()) {

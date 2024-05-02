@@ -30,7 +30,7 @@ export interface Report {
 }
 
 export interface Section {
-  sectionId: number;
+  sectionId?: number;
   reportId: number;
   question: string;
   answer: string;

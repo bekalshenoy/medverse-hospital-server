@@ -76,26 +76,24 @@ export class CompanyService {
     patientId: string,
     patientPassword: string,
     dob: string,
-  ): Promise<boolean> {
+  ): Promise<Patient> {
     try {
       return (
-        (
-          await this.httpService.axiosRef.get(
-            this.server +
-              "/patient/" +
-              patientId +
-              "/password?password=" +
-              patientPassword +
-              "&dob=" +
-              dob,
-            {
-              headers: {
-                Authorization: this.access_token,
-              },
+        await this.httpService.axiosRef.get(
+          this.server +
+            "/patient/" +
+            patientId +
+            "/password?password=" +
+            patientPassword +
+            "&dob=" +
+            dob,
+          {
+            headers: {
+              Authorization: this.access_token,
             },
-          )
-        ).data == true
-      );
+          },
+        )
+      ).data;
     } catch (e) {
       this.logger.debug(e);
       throw new InternalServerErrorException("Company Server Exception");
@@ -107,28 +105,26 @@ export class CompanyService {
     memberId: string,
     memberPassword: string,
     patientDob: string,
-  ): Promise<boolean> {
+  ): Promise<Patient> {
     try {
       return (
-        (
-          await this.httpService.axiosRef.get(
-            this.server +
-              "/patient/" +
-              patientId +
-              "/family/" +
-              memberId +
-              "?password=" +
-              memberPassword +
-              "&dob=" +
-              patientDob,
-            {
-              headers: {
-                Authorization: this.access_token,
-              },
+        await this.httpService.axiosRef.get(
+          this.server +
+            "/patient/" +
+            patientId +
+            "/family/" +
+            memberId +
+            "?password=" +
+            memberPassword +
+            "&dob=" +
+            patientDob,
+          {
+            headers: {
+              Authorization: this.access_token,
             },
-          )
-        ).data == true
-      );
+          },
+        )
+      ).data;
     } catch (e) {
       this.logger.debug(e);
       throw new InternalServerErrorException("Company Server Exception");

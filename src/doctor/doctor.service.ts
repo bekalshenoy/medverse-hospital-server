@@ -50,6 +50,28 @@ export class DoctorService {
     return await this.companyService.checkPatient(patientId);
   }
 
+  async checkPassword(
+    userId: string,
+    password: string,
+    dob: string,
+  ): Promise<Patient> {
+    return await this.companyService.checkPassword(userId, password, dob);
+  }
+
+  async checkPatientWithFamily(
+    userId: string,
+    memberId: string,
+    password: string,
+    dob: string,
+  ): Promise<Patient> {
+    return await this.companyService.checkPatientWithFamily(
+      userId,
+      memberId,
+      password,
+      dob,
+    );
+  }
+
   async getReports(currentUser: User): Promise<Report[]> {
     return await this.prismaService.report.findMany({
       where: {

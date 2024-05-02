@@ -1,53 +1,51 @@
-<div>
-  <nav class="bg-blue-500 p-4 flex justify-between items-center">
-    <h1 class="text-white text-lg font-bold">MediVerse</h1>
-    <div>
-      <button
-        class="bg-white justify-end text-blue-500 font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 ml-auto"
+<div class="pl-44 relative">
+  <router-outlet></router-outlet>
+</div>
+
+<div
+  class="absolute bg-white opacity-50 w-20 left-0 top-0 h-screen shadow-2xl"
+></div>
+
+<nav class="absolute h-screen top-0 left-0 w-52 z-10">
+  <ul class="flex flex-col mx-auto">
+    <li class="p-4">
+      <a
+        class="text-transparent py-2 px-4 rounded-lg transition-all duration-300 ease-out hover:text-black hover:bg-white"
+        [routerLink]="['/doctor/models']"
+        [routerLinkActive]="['active-nav']"
+      >
+        <i class="fa-solid fa-brain mr-2 text-gray-800"></i> Models
+      </a>
+    </li>
+    <li class="p-4">
+      <a
+        class="text-transparent py-2 px-4 rounded-lg transition-all duration-300 ease-out hover:text-black hover:bg-white"
+        [routerLink]="['/doctor/reports']"
+        [routerLinkActive]="['active-nav']"
+      >
+        <i class="fa-solid fa-file-circle-check mr-2 text-gray-800"></i> Reports
+      </a>
+    </li>
+    <li class="p-4">
+      <a
+        class="text-transparent py-2 px-4 rounded-lg transition-all duration-300 ease-out hover:text-black hover:bg-white"
+        [routerLink]="['/doctor/create-report']"
+        [routerLinkActive]="['active-nav']"
+      >
+        <i class="fa-solid fa-plus mr-2 text-gray-800"></i> New Report
+      </a>
+    </li>
+    <li class="p-4">
+      <a
+        class="text-transparent py-2 px-4 rounded-lg transition-all duration-300 ease-out hover:text-black hover:bg-white cursor-pointer"
         (click)="show.set(true)"
       >
-        Add Patient
-      </button>
-    </div>
-  </nav>
+        <i class="fa-solid fa-user-plus mr-2 text-gray-800"></i> New Patient
+      </a>
+    </li>
+  </ul>
+</nav>
 
-  <div class="bg-gray-100 py-12">
-    <div class="container mx-auto px-4">
-      <h1 class="text-3xl font-bold text-gray-800 mb-4">Welcome Doctor</h1>
-      <h2 class="text-xl font-semibold text-gray-600 mb-8">Medical Reports</h2>
-      <div class="grid grid-cols-4 gap-6">
-        <button
-          class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-12 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
-          (click)="navigate('/doctor/create-report')"
-        >
-          Create Report
-        </button>
-        <button
-          class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-12 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
-          (click)="navigate('/doctor/reports')"
-        >
-          Get/Update Report
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <div class="bg-white py-12">
-    <div class="container mx-auto px-4">
-      <h2 class="text-3xl font-bold text-gray-800 mb-4">AI Medical Models</h2>
-      <div class="grid grid-cols-3 gap-6">
-        @for (model of models(); track model.modelId) {
-          <div
-            class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-6 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
-          >
-            {{ model.name }}
-          </div>
-        }
-      </div>
-    </div>
-  </div>
-
-  @if (show()) {
-    <add-patient (OnCloseAddPatient)="closeAddPatient()" />
-  }
-</div>
+@if (show()) {
+  <add-patient (OnCloseAddPatient)="closeAddPatient()" />
+}

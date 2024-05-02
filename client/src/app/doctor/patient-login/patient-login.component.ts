@@ -40,7 +40,7 @@ export class PatientLoginComponent {
   });
   sections = input<Section[]>();
   task = input<string>();
-  reportId = input<string>();
+  reportId = input<number>();
 
   constructor(
     private apiService: ApiService,
@@ -55,7 +55,9 @@ export class PatientLoginComponent {
         const { userId, dob, password } = this.patientLoginForm.value;
 
         await this.apiService.checkPatient(userId);
-        if (this.task() === 'Create') {
+        await this.apiService.checkPassword(userId, password, dob);
+
+        if (this.task() === 'Save') {
           await this.apiService.addReport(
             this.sections() as Section[],
             userId,
@@ -65,7 +67,7 @@ export class PatientLoginComponent {
         } else {
           await this.apiService.updateReport(
             this.sections() as Section[],
-            this.reportId() as string,
+            this.reportId() as number,
             userId,
             dob,
             password,
@@ -75,7 +77,7 @@ export class PatientLoginComponent {
       }
     } catch (e) {
       alert('Patient id not found');
-      if (this.task() === 'Create') {
+      if (this.task() === 'Save') {
         this.show.set(true);
       }
     }
@@ -89,7 +91,13 @@ export class PatientLoginComponent {
         const { userId, dob, memberId, password } = this.familyLoginForm.value;
 
         await this.apiService.checkPatient(userId);
-        if (this.task() === 'Create') {
+        await this.apiService.checkPasswordWithFamily(
+          userId,
+          password,
+          memberId,
+          dob,
+        );
+        if (this.task() === 'Save') {
           await this.apiService.addReportMember(
             this.sections() as Section[],
             userId,
@@ -100,7 +108,7 @@ export class PatientLoginComponent {
         } else {
           await this.apiService.updateReportMember(
             this.sections() as Section[],
-            this.reportId() as string,
+            this.reportId() as number,
             userId,
             dob,
             memberId,
@@ -111,7 +119,7 @@ export class PatientLoginComponent {
       }
     } catch (e) {
       alert('Family member id or patient id not found');
-      if (this.task() === 'Create') {
+      if (this.task() === 'Save') {
         this.show.set(true);
       }
     }

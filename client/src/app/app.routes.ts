@@ -5,6 +5,7 @@ import { LoginComponent } from './login/login.component';
 import { CreateReportComponent } from './doctor/create-report/create-report.component';
 import { ReportsComponent } from './doctor/reports/reports.component';
 import { ReportPageComponent } from './doctor/report-page/report-page.component';
+import { ModelsComponent } from './doctor/models/models.component';
 
 export const routes: Routes = [
   {
@@ -16,22 +17,32 @@ export const routes: Routes = [
     path: 'login',
     component: LoginComponent,
   },
-
+  {
+    path: 'doctor',
+    redirectTo: 'doctor/models',
+    pathMatch: 'full',
+  },
   {
     path: 'doctor',
     component: DoctorComponent,
-  },
-  {
-    path: 'doctor/create-report',
-    component: CreateReportComponent,
-  },
-  {
-    path: 'doctor/reports',
-    component: ReportsComponent,
-  },
-  {
-    path: 'doctor/report/:id',
-    component: ReportPageComponent,
+    children: [
+      {
+        path: 'models',
+        component: ModelsComponent,
+      },
+      {
+        path: 'create-report',
+        component: CreateReportComponent,
+      },
+      {
+        path: 'reports',
+        component: ReportsComponent,
+      },
+      {
+        path: 'report/:id',
+        component: ReportPageComponent,
+      },
+    ],
   },
   {
     path: 'admin',

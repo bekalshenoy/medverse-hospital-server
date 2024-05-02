@@ -1,0 +1,16 @@
+<div class="p-12">
+  @for (model of models(); track model.modelId) {
+    <div
+      class="bg-white p-8 rounded-2xl shadow-md mb-4 block max-w-72 text-center"
+    >
+      <img
+        src="../../../assets/model.png"
+        width="64"
+        height="64"
+        class="mb-8 mx-auto"
+      />
+      <h1 class="text-lg font-bold text-gray-800">{{ model.name }}</h1>
+      <p class="text-gray-600">{{ model.description }}</p>
+    </div>
+  }
+</div>

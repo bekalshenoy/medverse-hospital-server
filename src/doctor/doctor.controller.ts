@@ -36,6 +36,30 @@ export class DoctorController {
     return await this.doctorService.checkPatient(patientId);
   }
 
+  @Get("/patient/:id/password")
+  async checkPassword(
+    @Param("id") userId: string,
+    @Query("password") password: string,
+    @Query("dob") dob: string,
+  ): Promise<Patient> {
+    return await this.doctorService.checkPassword(userId, password, dob);
+  }
+
+  @Get("/patient/member/:patientId/member/:memberId/password")
+  async checkPasswordWithMember(
+    @Param("patientId") userId: string,
+    @Param("memberId") memberId: string,
+    @Query("password") password: string,
+    @Query("dob") dob: string,
+  ): Promise<Patient> {
+    return await this.doctorService.checkPatientWithFamily(
+      userId,
+      memberId,
+      password,
+      dob,
+    );
+  }
+
   @Get("/report")
   async getReports(@Req() req): Promise<Report[]> {
     return await this.doctorService.getReports(req.user);

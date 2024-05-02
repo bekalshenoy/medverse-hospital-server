@@ -1,29 +1,36 @@
-<div>
-  <div [ngStyle]="{ display: 'grid', placeItems: 'center', padding: 16 }">
-    <div>
+<div class="p-12">
+  <div class="grid place-items-center p-12">
+    <div class="w-fit bg-white shadow-lg rounded-2xl p-8 mx-auto">
       <input
-        class="border border-gray-300 rounded-lg mb-4 py-2 px-4 focus:outline-none focus:border-blue-500 bg-white text-black"
+        class="w-96 bg-transparent text-black border border-transparent border-b-gray-400 py-2 px-4 focus:outline-none focus:border-b-black"
         type="text"
         placeholder="Patient ID"
         [formControl]="patientFormControl"
       />
       <button
-        class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outlin ml-2"
+        class="bg-purple-500 hover:bg-purple-600 rounded-full shadow-md text-white font-bold py-2 px-4 focus:outline-none ml-8"
         (click)="fetchReports()"
       >
-        Get Reports
+        Search
       </button>
     </div>
   </div>
 
   @for (report of reports(); track report.reportId) {
     <div
-      [ngStyle]="{ display: 'block', maxWidth: 200 }"
       (click)="navigate('/doctor/report/' + report.reportId)"
-      class="bg-white p-4 rounded-lg shadow-md mb-4"
+      class="bg-white p-8 rounded-2xl shadow-md mb-4 block max-w-72 text-center"
     >
-      <h1 class="text-lg font-bold text-gray-800">{{ report.reportId }}</h1>
-      <p class="text-gray-600">{{ report.modifiedAt }}</p>
+      <img
+        src="../../../assets/report.png"
+        width="64"
+        height="64"
+        class="mb-8 mx-auto"
+      />
+      <h1 class="text-lg font-bold text-gray-800">
+        Report {{ report.reportId }}
+      </h1>
+      <p class="text-gray-600">{{ report.modifiedAt | date: "short" }}</p>
     </div>
   }
 </div>

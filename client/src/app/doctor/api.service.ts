@@ -81,7 +81,7 @@ export class ApiService {
 
   async updateReport(
     sections: Section[],
-    reportId: string,
+    reportId: number,
     patientId: string,
     dob: string,
     password: string,
@@ -111,7 +111,7 @@ export class ApiService {
 
   async updateReportMember(
     sections: Section[],
-    reportId: string,
+    reportId: number,
     patientId: string,
     dob: string,
     memberId: string,
@@ -154,6 +154,65 @@ export class ApiService {
     await this.checkResponse(response);
   }
 
+  async checkPassword(
+    patientId: string,
+    password: string,
+    dob: string,
+  ): Promise<void> {
+    const response: Response = await fetch(
+      `${this.baseUrl}/patient/${patientId}/password?` +
+        new URLSearchParams({
+          dob: dob,
+          password: password,
+        }),
+      {
+        method: 'GET',
+        headers: {
+          Authorization: this.token(),
+        },
+      },
+    );
+
+    await this.checkResponse(response);
+
+    const patient: Patient = await response.json();
+
+    sessionStorage.setItem('patientId', patient.userId);
+    sessionStorage.setItem('name', patient.name);
+    sessionStorage.setItem('phone', patient.phone);
+    sessionStorage.setItem('location', patient.location);
+  }
+
+  async checkPasswordWithFamily(
+    patientId: string,
+    password: string,
+    memberId: string,
+    dob: string,
+  ): Promise<void> {
+    const response: Response = await fetch(
+      `${this.baseUrl}/patient/${patientId}/member/${memberId}/password?` +
+        new URLSearchParams({
+          dob: dob,
+          password: password,
+        }),
+      {
+        method: 'GET',
+        headers: {
+          Authorization: this.token(),
+        },
+      },
+    );
+
+    await this.checkResponse(response);
+
+    const patient: Patient = await response.json();
+
+    sessionStorage.setItem('patientId', patient.userId);
+    sessionStorage.setItem('name', patient.name);
+    sessionStorage.setItem('phone', patient.phone);
+    sessionStorage.setItem('location', patient.location);
+  }
+
   async getReports(): Promise<Report[]> {
     const response: Response = await fetch(`${this.baseUrl}/report`, {
       method: 'GET',
@@ -186,7 +245,7 @@ export class ApiService {
   }
 
   async getReport(
-    reportId: string,
+    reportId: number,
     password: string,
     dob: string,
   ): Promise<Report> {
@@ -211,7 +270,7 @@ export class ApiService {
   }
 
   async getReportMember(
-    reportId: string,
+    reportId: number,
     memberId: string,
     dob: string,
     password: string,
