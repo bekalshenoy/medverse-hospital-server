@@ -309,6 +309,21 @@ export class ApiService {
     return await response.json();
   }
 
+  async generateReport(input: string): Promise<Section[]> {
+    const response: Response = await fetch(`${this.baseUrl}/report/generate`, {
+      method: 'POST',
+      headers: {
+        Authorization: this.token(),
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ input: input }),
+    });
+
+    await this.checkResponse(response);
+
+    return await response.json();
+  }
+
   token(): string {
     return 'Bearer ' + sessionStorage.getItem('token');
   }

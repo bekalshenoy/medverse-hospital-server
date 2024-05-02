@@ -3,13 +3,14 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from "@nestjs/common";
-import { Report, Restricted, User } from "@prisma/client";
+import { Report, Restricted, Section, User } from "@prisma/client";
 import { CompanyService } from "src/company.service";
 import { MedicalReport } from "src/dto/medical-report.dto";
 import { Model } from "src/dto/model.dto";
 import { Patient } from "src/dto/patient.dto";
 import { EncryptionService } from "src/encryption.service";
 import { PrismaService } from "src/prisma.service";
+import { HttpService } from "@nestjs/axios";
 
 @Injectable()
 export class DoctorService {
@@ -17,6 +18,7 @@ export class DoctorService {
     private companyService: CompanyService,
     private encryptionService: EncryptionService,
     private prismaService: PrismaService,
+    private readonly httpService: HttpService,
   ) {}
 
   async getModels(): Promise<Model[]> {
@@ -185,6 +187,29 @@ export class DoctorService {
         },
       });
     });
+  }
+
+  async generateReport(input: string): Promise<Section[]> {
+    try {
+      return (
+        await this.httpService.axiosRef.post(
+          "https://3r22mvpmg8ebvc-5000.proxy.runpod.net/",
+          {
+            input: input,
+            password: "dontshare",
+          },
+          {
+            headers: {
+              accept: "application/json",
+              "content-type": "application/json",
+            },
+          },
+        )
+      ).data;
+    } catch (e) {
+      console.log(e);
+      throw new InternalServerErrorException("Generating Failed");
+    }
   }
 
   private async encrypt(

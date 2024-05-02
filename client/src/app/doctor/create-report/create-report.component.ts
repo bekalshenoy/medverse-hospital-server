@@ -7,6 +7,7 @@ import {
 import { Section } from '../types.js';
 import { recorder } from './recorder.util';
 import { ReportComponent } from '../report/report.component.js';
+import { ApiService } from '../api.service.js';
 
 @Component({
   selector: 'create-report',
@@ -18,16 +19,20 @@ import { ReportComponent } from '../report/report.component.js';
 export class CreateReportComponent implements AfterViewInit {
   sections: WritableSignal<Section[]> = signal([]);
 
+  constructor(private apiService: ApiService) {}
+
   ngAfterViewInit() {
     recorder(this.afterRecord.bind(this));
   }
 
   afterRecord(blob: Blob) {
-    console.log(blob);
-    this.setSections([
-      { question: 'blah', answer: 'blah' } as Section,
-      { question: 'blah', answer: 'blah' } as Section,
-    ]);
+    const reader = new window.FileReader();
+    reader.readAsDataURL(blob);
+    reader.onloadend = async () => {
+      let base64: string = reader.result as string;
+      base64 = base64.split(',')[1];
+      this.setSections(await this.apiService.generateReport(base64));
+    };
   }
 
   setSections(sections: Section[]) {

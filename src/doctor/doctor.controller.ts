@@ -159,4 +159,9 @@ export class DoctorController {
       req.user,
     );
   }
+
+  @Post("/report/generate")
+  async generateReport(@Body() body: { input: string }): Promise<Section[]> {
+    return await this.doctorService.generateReport(body.input);
+  }
 }
