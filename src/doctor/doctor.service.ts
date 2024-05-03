@@ -193,7 +193,7 @@ export class DoctorService {
     try {
       return (
         await this.httpService.axiosRef.post(
-          "https://3r22mvpmg8ebvc-5000.proxy.runpod.net/",
+          "https://vp9ddzj8yc6479-5000.proxy.runpod.net/",
           {
             input: input,
             password: "dontshare",

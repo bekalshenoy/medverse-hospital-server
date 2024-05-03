@@ -1,4 +1,4 @@
-@if (model()?.modelId == 5) {
+@if (model()?.modelId == 7) {
   <div class="p-24">
     <div class="w-fit bg-white shadow-lg rounded-2xl p-8 mx-auto">
       <input
@@ -23,7 +23,7 @@
           @for (result of result(); track $index) {
             <tr>
               <td>{{ result[0] }}</td>
-              <td>{{ result[1] * 100 + " %" }}</td>
+              <td>{{ result[1] + " %" }}</td>
             </tr>
           }
         </tbody>

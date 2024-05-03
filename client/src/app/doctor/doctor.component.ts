@@ -8,6 +8,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { Role } from '../login/api.service';
 import { AddPatientComponent } from './add-patient/add-patient.component';
+import { ChatComponent } from './chat/chat.component';
 
 @Component({
   selector: 'doctor',
@@ -18,6 +19,7 @@ import { AddPatientComponent } from './add-patient/add-patient.component';
     RouterLinkActive,
     CommonModule,
     AddPatientComponent,
+    ChatComponent,
   ],
   templateUrl: './doctor.component.html',
   styleUrl: './doctor.component.css',
