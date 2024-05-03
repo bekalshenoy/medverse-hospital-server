@@ -22,7 +22,8 @@ export class ModelsComponent implements OnInit {
     this.models.set(await this.apiService.getModels());
   }
 
-  navigate(path: string) {
-    this.router.navigate([path]);
+  goToModel(index: number, modelId: number) {
+    sessionStorage.setItem('model', JSON.stringify(this.models()[index]));
+    this.router.navigate(['/doctor/model/' + modelId]);
   }
 }

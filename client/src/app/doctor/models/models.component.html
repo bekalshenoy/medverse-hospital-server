@@ -2,6 +2,7 @@
   @for (model of models(); track model.modelId) {
     <div
       class="bg-white p-8 rounded-2xl shadow-md mb-4 block max-w-72 text-center"
+      (click)="goToModel($index, model.modelId)"
     >
       <img
         src="../../../assets/model.png"

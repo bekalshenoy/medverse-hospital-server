@@ -6,6 +6,7 @@ import { CreateReportComponent } from './doctor/create-report/create-report.comp
 import { ReportsComponent } from './doctor/reports/reports.component';
 import { ReportPageComponent } from './doctor/report-page/report-page.component';
 import { ModelsComponent } from './doctor/models/models.component';
+import { ModelPageComponent } from './doctor/model-page/model-page.component';
 
 export const routes: Routes = [
   {
@@ -29,6 +30,10 @@ export const routes: Routes = [
       {
         path: 'models',
         component: ModelsComponent,
+      },
+      {
+        path: 'model/:id',
+        component: ModelPageComponent,
       },
       {
         path: 'create-report',
