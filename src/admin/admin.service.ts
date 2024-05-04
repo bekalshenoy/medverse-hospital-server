@@ -4,6 +4,7 @@ import { CompanyService } from "src/company.service";
 import { Model } from "src/dto/model.dto";
 import { Payment } from "src/dto/payment.dto";
 import { PrismaService } from "src/prisma.service";
+import { Hashing } from "src/utils/hashing.util";
 
 @Injectable()
 export class AdminService {
@@ -16,6 +17,7 @@ export class AdminService {
     await this.prismaService.user.create({
       data: {
         ...user,
+        password: await Hashing.hash(user.password),
         role: Role.ROLE_DOCTOR,
       },
     });

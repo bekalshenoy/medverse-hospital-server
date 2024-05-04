@@ -1,0 +1,25 @@
+COPY public."User" ("userId", name, password, role) FROM stdin;
+admin	admin	$2a$10$WWdBeFs7WcOFG0G88WVnbOP8NR2fw.FkkSXNpQkxCqSmP3e8eajk6	ROLE_ADMIN
+doctor@doctor.com	doctor	hospital@123                                                	ROLE_DOCTOR
+\.
+COPY public."Report" ("reportId", "patientId", "doctorId", iv, "createdAt", "modifiedAt") FROM stdin;
+4	123456789012	doctor@doctor.com	f3d44d995988e1ed6241a396f1285f3d	2024-04-30 06:25:58.666	2024-04-30 06:27:55.363
+5	123456789012	doctor@doctor.com	e201e4fff48c250653d466bc0c9b1a34	2024-05-03 08:22:34.186	2024-05-03 08:22:34.186
+\.
+COPY public."Restricted" ("modelId") FROM stdin;
+\.
+COPY public."Section" ("reportId", question, answer, "sectionId") FROM stdin;
+4	blahsdffd	ddf9d267a59c1eaf13ad7e27c1fd41f5	7
+4	blah	4a0cdf8fd2482d4773a44c688e86f84e	8
+4	demo	36de538e4fe5d0479d2446f9d60002a3	9
+5	Chief Complaint (CC)	a2f9a31c0f353fe4cf4ac67519dee72a1ade0baddf6f34380a86b4d353ce1fce8be01548147519ee837f5dc786acc10fd4632241f79de573d1724e1b28cdba29	10
+5	History of Present Illness (HPI)	6c66fe2ea8368ff7104bbc7e9d1133fc71aa5803ed8f9c2bd19ae62c8c63834452d2fc98aea2e3279aca1e55618f012e01f9747bad64ce365ed52ecc7c4b451df5d75dbf883dbd56b815e5632c838280a403cf186c380d0cef80b225293bf2aca2673c71a4cf02bd7b56ccb8e4819865718a99fb1e5513ccc25e2a0001b8901a541cfef55c1adc6ccf56b12ae4de392470686af03cb7dd5a9c56c320501e6676dfbed9c2940fb5771ed2eb31264597a591569fe3dd4f1b03f5be8801a69c7ee783bfaa1a9a9a4391739fb3d2dbad27c7673436a7e906d3f9932903511f3aab1d650162ba9563ee6ea8d921e42da1dca0a5e6185d3d96eb7420bc46e0a0c3cd749e7cf32353dd1304ab960b1defa4645e14c30e2edff642e93f09c8ea8421a9088c00a5624075ad61381e30c3a87ee2b3bf759d1d0bc71a5ff5d1951ce71a525e625e8331087ac70eea57142e21795d60184d0b1a894ebe106c2d6046e830a03bc8be4467853fcf25af9375a0d44ade5e08f9003ffe66d88d53f08d10a6406bf6691246255cff330ffcd349d4607b49ff	11
+5	Assessment and Plan	ca87c48814825d53d5163d4f548a5dc5375ce6b88ee32db8253589be4f27c4292ee01622ea69ead6071020084181bf3739dd4d30688dbcf0c07af777c6204103c846a186eab1e46e1be2419462d41e1826f77ac363906eb1ce85178d27ef543b707f12837c392223888c76487ccb704c6ec3584c1785d365a5dd13206312602ed64ca5a9d92e98b626be32d468d69bd3ab7310fd35ded25ca488a8025895226c9048c5f183d89bfab74fd7f74e4ae3668295d7a8a0ded7d81df32aca68dc318ef72e3705ae7a5c0fe7797a2cbeebe1ab	12
+5	Allergies	3c79354420de481a50598b8c7b2705fe31944c37309879f0b4d999fad3b26866	13
+5	Medications	05a58d46dc2f1ebefa6b78ec8c58d4b021a6591c066d0e8a55841365756028df	14
+5	Social History	05a58d46dc2f1ebefa6b78ec8c58d4b021a6591c066d0e8a55841365756028df	15
+5	Past Medical History (PMH)	d3f50162b38af635e95c7d765eb023c899cfa16de1a15bf858375d748e71fc8d	16
+\.
+SELECT pg_catalog.setval('public."Section_sectionId_seq"', 16, true);
+SELECT pg_catalog.setval('public.report_reportid_seq', 5, true);
+

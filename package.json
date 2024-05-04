@@ -6,9 +6,9 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "build": "nest build",
+    "build": "cd client && npm install && npm run build && cd .. && npm install && nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": "cd client && npm run build && cd .. && dotenv -e .env.development -- nest start",
+    "start": "nest start",
     "start:dev": "cd client && npm run build && cd .. && dotenv -e .env.development -- nest start --watch",
     "start:debug": "cd client && npm run build && cd .. && dotenv -e .env.development -- nest start --debug --watch",
     "start:prod": "cd client && npm run build && cd .. && node dist/main",
