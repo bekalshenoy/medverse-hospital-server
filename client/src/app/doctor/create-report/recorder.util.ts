@@ -190,6 +190,7 @@ export function recorder(afterRecord: any) {
             console.log('An UnknownError has occured.');
             break;
           default:
+            console.log(error);
             console.log('An error occured with the error name ' + error.name);
         }
       });
@@ -288,8 +289,7 @@ export function recorder(afterRecord: any) {
     displayElapsedTimeDuringAudioRecording('00:00');
 
     //create an interval that compute & displays elapsed time, as well as, animate red dot - every second
-    // @ts-expect-error - no types
-    elapsedTimeTimer: NodeJS.Timeout = setInterval(() => {
+    elapsedTimeTimer = setInterval(() => {
       //compute the elapsed time every second
       const elapsedTime = computeElapsedTime(audioRecordStartTime); //pass the actual record start time
       //display the elapsed time

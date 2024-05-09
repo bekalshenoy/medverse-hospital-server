@@ -70,7 +70,7 @@ export class ReportPageComponent implements OnInit {
   }
 
   async showReportMember() {
-    const { userId, dob, memberId, password } = this.getReportForm.value;
+    const { userId, dob, memberId, password } = this.getReportMemberForm.value;
 
     await this.apiService.checkPasswordWithFamily(
       userId,
@@ -84,8 +84,8 @@ export class ReportPageComponent implements OnInit {
         await this.apiService.getReportMember(
           this.reportId(),
           memberId,
-          password,
           dob,
+          password,
         )
       ).section,
     );

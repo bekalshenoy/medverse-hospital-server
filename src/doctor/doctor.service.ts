@@ -300,6 +300,7 @@ export class DoctorService {
         );
       });
     } catch (e) {
+      console.log(e);
       throw new InternalServerErrorException("Failed to decrypt report");
     }
 

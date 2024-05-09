@@ -1,13 +1,39 @@
-<div class="app">
-  <form class="card" [formGroup]="doctorForm" (ngSubmit)="addDoctor()">
+<div
+  class="max-w-[1280px] grid place-items-center min-w-80 min-h-full mx-auto text-center p-8"
+>
+  <form
+    class="m-4 max-w-80 w-fit bg-white p-8 rounded-2xl shadow-md text-black"
+    [formGroup]="doctorForm"
+    (ngSubmit)="addDoctor()"
+  >
     <h2>Add Doctor</h2>
-    <input type="email" placeholder="Email" formControlName="userId" />
-    <input type="text" placeholder="Name" formControlName="name" />
-    <input type="password" placeholder="Password" formControlName="password" />
-    <button type="submit">Add</button>
+    <input
+      type="email"
+      placeholder="Email"
+      class="w-full bg-transparent text-black border border-transparent border-b-gray-400 py-2 px-4 focus:outline-none focus:border-b-black my-2"
+      formControlName="userId"
+    />
+    <input
+      type="text"
+      placeholder="Name"
+      class="w-full bg-transparent text-black border border-transparent border-b-gray-400 py-2 px-4 focus:outline-none focus:border-b-black my-2"
+      formControlName="name"
+    />
+    <input
+      type="password"
+      placeholder="Password"
+      class="w-full bg-transparent text-black border border-transparent border-b-gray-400 py-2 px-4 focus:outline-none focus:border-b-black my-2"
+      formControlName="password"
+    />
+    <button
+      type="submit"
+      class="bg-purple-500 hover:bg-purple-600 rounded-full text-white font-bold shadow-md py-2 px-4 focus:outline-none"
+    >
+      Add
+    </button>
   </form>
 
-  <h1>Sections</h1>
+  <h1 class="text-[3.2rem] line leading-[1.1]">Sections</h1>
   <div>
     <div>
       Select One:
@@ -39,32 +65,73 @@
     <div class="section">
       @if (currentSection() == 1) {
         @for (doctor of doctors(); track doctor.userId) {
-          <div class="card">
-            <p>{{ doctor.userId }}</p>
-            <p>{{ doctor.name }}</p>
-            <button (click)="removeDoctor(doctor.userId)">delete</button>
+          <div
+            class="m-4 min-w-80 max-w-96 w-fit inline-block bg-white bg-opacity-50 p-8 rounded-2xl shadow-md text-black"
+          >
+            <p class="bg-white w-full p-4 my-2 text-left rounded-2xl">
+              Email: {{ doctor.userId }}
+            </p>
+            <p class="bg-white w-full p-4 my-2 text-left rounded-2xl">
+              Name: {{ doctor.name }}
+            </p>
+            <button
+              (click)="removeDoctor(doctor.userId)"
+              class="bg-purple-500 hover:bg-purple-600 rounded-full text-white font-bold shadow-md py-2 px-4 focus:outline-none"
+            >
+              delete
+            </button>
           </div>
         }
       } @else if (currentSection() == 2) {
         @for (report of reports(); track report.reportId) {
-          <div class="card">
-            <p>Report ID: {{ report.reportId }}</p>
-            <p>Patient: {{ report.patientId }}</p>
-            <p>Doctor: {{ report.doctorId }}</p>
-            <p>Modified: {{ report.modifiedAt }}</p>
-            <button (click)="deleteReport(report.reportId)">delete</button>
+          <div
+            class="m-4 min-w-80 max-w-96 w-fit inline-block bg-white bg-opacity-50 p-8 rounded-2xl shadow-md text-black"
+          >
+            <p class="bg-white w-full p-4 my-2 text-left rounded-2xl">
+              Report ID: {{ report.reportId }}
+            </p>
+            <p class="bg-white w-full p-4 my-2 text-left rounded-2xl">
+              Patient: {{ report.patientId }}
+            </p>
+            <p class="bg-white w-full p-4 my-2 text-left rounded-2xl">
+              Doctor: {{ report.doctorId }}
+            </p>
+            <p class="bg-white w-full p-4 my-2 text-left rounded-2xl">
+              Modified: {{ report.modifiedAt }}
+            </p>
+            <button
+              (click)="deleteReport(report.reportId)"
+              class="bg-purple-500 hover:bg-purple-600 rounded-full text-white font-bold shadow-md py-2 px-4 focus:outline-none"
+            >
+              delete
+            </button>
           </div>
         }
       } @else if (currentSection() == 3) {
         @for (model of models(); track model.modelId) {
-          <div class="card">
-            <p>Name: {{ model.name }}</p>
-            <p>Description: {{ model.description }}</p>
-            <p>Usage Cost: {{ model.cost }}₹</p>
-            <p>Usage: {{ model._count.usage }}</p>
+          <div
+            class="m-4 min-w-80 max-w-96 w-fit inline-block bg-white bg-opacity-50 p-8 rounded-2xl shadow-md text-black"
+          >
+            <p class="bg-white w-full p-4 my-2 text-left rounded-2xl">
+              Name: {{ model.name }}
+            </p>
+            <p class="bg-white w-full p-4 my-2 text-left rounded-2xl">
+              Description: {{ model.description }}
+            </p>
+            <p class="bg-white w-full p-4 my-2 text-left rounded-2xl">
+              Usage Cost: {{ model.cost }}₹
+            </p>
+            <p class="bg-white w-full p-4 my-2 text-left rounded-2xl">
+              Usage: {{ model._count.usage }}
+            </p>
 
-            <p>Est. Cost: {{ model._count.usage * model.cost }}₹</p>
-            <button (click)="toggleRestrictedModel(model.modelId)">
+            <p class="bg-white w-full p-4 my-2 text-left rounded-2xl">
+              Est. Cost: {{ model._count.usage * model.cost }}₹
+            </p>
+            <button
+              (click)="toggleRestrictedModel(model.modelId)"
+              class="bg-purple-500 hover:bg-purple-600 rounded-full text-white font-bold shadow-md py-2 px-4 focus:outline-none"
+            >
               {{
                 restrictedModels().includes(model.modelId)
                   ? "enable"
@@ -75,12 +142,24 @@
         }
       } @else if (currentSection() == 4) {
         @for (payment of payments(); track payment.paymentId) {
-          <div class="card">
-            <p>Payment ID: {{ payment.paymentId }}</p>
-            <p>Model ID: {{ payment.modelId }}</p>
-            <p>Amount: {{ payment.amount }}₹</p>
-            <p>Start Date: {{ payment.startDate }}</p>
-            <p>End Date: {{ payment.endDate }}</p>
+          <div
+            class="m-4 min-w-80 max-w-96 w-fit inline-block bg-white bg-opacity-50 p-8 rounded-2xl shadow-md text-black"
+          >
+            <p class="bg-white w-full p-4 my-2 text-left rounded-2xl">
+              Payment ID: {{ payment.paymentId }}
+            </p>
+            <p class="bg-white w-full p-4 my-2 text-left rounded-2xl">
+              Model ID: {{ payment.modelId }}
+            </p>
+            <p class="bg-white w-full p-4 my-2 text-left rounded-2xl">
+              Amount: {{ payment.amount }}₹
+            </p>
+            <p class="bg-white w-full p-4 my-2 text-left rounded-2xl">
+              Start Date: {{ payment.startDate }}
+            </p>
+            <p class="bg-white w-full p-4 my-2 text-left rounded-2xl">
+              End Date: {{ payment.endDate }}
+            </p>
           </div>
         }
       }

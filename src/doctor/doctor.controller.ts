@@ -45,7 +45,7 @@ export class DoctorController {
     return await this.doctorService.checkPassword(userId, password, dob);
   }
 
-  @Get("/patient/member/:patientId/member/:memberId/password")
+  @Get("/patient/:patientId/member/:memberId/password")
   async checkPasswordWithMember(
     @Param("patientId") userId: string,
     @Param("memberId") memberId: string,
